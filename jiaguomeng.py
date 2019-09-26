@@ -99,12 +99,12 @@ startDict = {1:1, 2:2, 3:6, 4:24}
 # TODO: 自动计算
 
 start = dict()
-for item in commercial:
-    start[item] = startDict[star[item]]*3.3*4.1
-for item in industry:
-    start[item] = startDict[star[item]]*2.4*1.85
-for item in residence:
-    start[item] = startDict[star[item]]*3.3*4.85
+for item in commercial:#商业
+    start[item] = startDict[star[item]]*3.3*5.1
+for item in industry:#工业
+    start[item] = startDict[star[item]]*2.4*3,6
+for item in residence:#住宅
+    start[item] = startDict[star[item]]*3.3*5.1*1.3
 
 
 #收益调整

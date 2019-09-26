@@ -64,26 +64,13 @@ buffs_res = {'人才公寓': [.2, .5, .8],
              '企鹅机械':[.1, .2, .3]
              }
 #
-#commercial = '木屋 居民楼 钢结构房 平房 小型公寓 人才公寓 花园洋房 中式小楼 空中别墅 复兴公馆'.split()
-#industry   = '便利店 五金店 服装店 菜市场 学校 图书城 商贸中心 加油站 民食斋 媒体之声'.split()
-#residence  = '木材厂 食品厂 造纸厂 水厂 电厂 钢铁厂 纺织厂 零件厂 企鹅机械 人民石油'.split()
-#
-#removelist = '复兴公馆 空中别墅 花园洋房 加油站 商贸中心 人民石油'.split()
-
-#residence = '木屋 居民楼 钢结构房 平房 人才公寓 复兴公馆'.split()
-#commercial   = '便利店 五金店 服装店 菜市场 学校 图书城 民食斋 媒体之声'.split()
-#industry  = '木材厂 食品厂 造纸厂 电厂 钢铁厂 纺织厂 零件厂 企鹅机械'.split()
-#
-#OneStars = '民食斋 人才公寓 零件厂 企鹅机械 复兴公馆 媒体之声'.split()
-#TwoStars = '纺织厂 电厂 平房 学校 图书城 钢铁厂'.split()
-#TriStars = '居民楼 木屋 钢结构房 便利店 木材厂 服装店 五金店 菜市场 造纸厂 食品厂'.split()
 
 residence = '木屋 居民楼 钢结构房 平房 小型公寓 人才公寓 中式小楼'.split()
 commercial = '便利店 五金店 服装店 菜市场 学校 图书城 民食斋 媒体之声'.split()
 industry  = '木材厂 食品厂 造纸厂 水厂 电厂 钢铁厂 纺织厂 零件厂 企鹅机械'.split()
 
-OneStars = '中式小楼 民食斋 人才公寓 小型公寓 图书城 媒体之声 水厂 零件厂 企鹅机械'.split()
-TwoStars = '纺织厂 木屋 电厂 平房 学校 钢铁厂'.split()
+OneStars = '中式小楼 民食斋 人才公寓 小型公寓 图书城 媒体之声 零件厂 企鹅机械'.split()
+TwoStars = '纺织厂 木屋 电厂 平房 学校 钢铁厂 水厂'.split()
 TriStars = '菜市场 居民楼 便利店 服装店 食品厂 木材厂 钢结构房 五金店 造纸厂'.split()
 
 star = dict()
@@ -97,15 +84,27 @@ for item in TriStars:
 startDict = {1:1, 2:2, 3:6, 4:24}
 
 ######星级 * 照片 * 政策 * 任务
+'''
+ 我这里的照片加成是全体40%+在线40%+住宅150%+商业150%+工业60%
+ 所以住宅和商业建筑的照片加成系数为 1+0.4+0.4+1.5=3.3
+ 工业建筑的照片加成系数为 1+0.4+0.4+0.6=2.4
+
+ 我的政策加成为 全体100% + 商业300% + 住宅300% + 工业150%
+ 加上家国之光的10%加成
+ 政策加成系数为 商业住宅 1+1+3+.1 = 5.1
+             工业     1+1+1.5+.1 = 3.6
+
+ 最后在住宅上乘上和谐家园的任务加成 1.3
+'''
 # TODO: 自动计算
 
 start = dict()
 for item in commercial:
-    start[item] = startDict[star[item]]*3.3*5.1
+    start[item] = startDict[star[item]]*3.3*4.1
 for item in industry:
-    start[item] = startDict[star[item]]*2.4*2.1
+    start[item] = startDict[star[item]]*2.4*1.85
 for item in residence:
-    start[item] = startDict[star[item]]*3.3*5.1*1.3
+    start[item] = startDict[star[item]]*3.3*4.85
 
 
 #收益调整

@@ -102,7 +102,7 @@ start = dict()
 for item in commercial:#商业
     start[item] = startDict[star[item]]*3.3*5.1
 for item in industry:#工业
-    start[item] = startDict[star[item]]*2.4*3,6
+    start[item] = startDict[star[item]]*2.4*3.6
 for item in residence:#住宅
     start[item] = startDict[star[item]]*3.3*5.1*1.3
 

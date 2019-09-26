@@ -9,7 +9,7 @@ import numpy as np
 from tqdm import tqdm
 import itertools
 from queue import PriorityQueue as PQ
-from functools import total_ordering
+from scipy.special import comb
 
 
 buffs_100 = {
@@ -133,7 +133,7 @@ class Result(object):
     def __eq__(self, other):
         return self.priority == other.priority
 
-Max = 1
+print('Total iterations:', comb(len(commercial), 3)*comb(len(industry), 3)*comb(len(residence), 3))
 
 for item in tqdm(itertools.product(itertools.combinations(commercial, 3), itertools.combinations(industry, 3), itertools.combinations(residence, 3))):
     prod = calculateComb(item)
@@ -148,40 +148,6 @@ cdict = dict()
 for i in range(10):
     cdict[i] = results.get()
     print(-cdict[i].priority, cdict[i].builds)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -97,6 +97,7 @@ for item in TriStars:
 startDict = {1:1, 2:2, 3:6, 4:24}
 
 ######星级 * 照片 * 政策 * 任务
+# TODO: 自动计算
 
 start = dict()
 for item in commercial:
@@ -106,7 +107,12 @@ for item in industry:
 for item in residence:
     start[item] = startDict[star[item]]*3.3*5.1*1.3
 
-#
+
+#收益调整
+start['平房'] *= 1.1
+start['民食斋'] *= 1.52
+
+#任务加成调整
 #start['纺织厂'] *= 2.5
 #start['木材厂'] *= 2
 #start['食品厂'] *= 2.5
@@ -160,8 +166,18 @@ for item in tqdm(itertools.product(itertools.combinations(commercial, 3), iterto
 
 
 cdict = dict()
-for i in range(2):
-    cdict[i] = results.get()
-    print(-cdict[i].priority, cdict[i].builds)
+#for i in range(2):
+#    cdict[i] = results.get()
+#    print(-cdict[i].priority, cdict[i].builds)
+print('==============')
+Rec = results.get()
+print('最优策略：', Rec.builds[0])
+print('各建筑加成倍率', np.round(Rec.builds[1], 2))
+print('升级优先级', np.round([x*star[Rec.builds[0][i//3][i%3]] for i, x in enumerate(Rec.builds[1])], 2))
+print('==============')
+Rec = results.get()
+print('次优策略：', Rec.builds[0])
+print('各建筑加成倍率', np.round(Rec.builds[1], 2))
+print('升级优先级', np.round([x*star[Rec.builds[0][i//3][i%3]] for i, x in enumerate(Rec.builds[1])], 2))
 
 

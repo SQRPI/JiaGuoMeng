@@ -25,7 +25,7 @@ Step5. 用python3运行程序
 公式参考： https://bbs.nga.cn/read.php?tid=18675554
 nga：https://bbs.nga.cn/read.php?tid=18677204
 
-##9月28日更新：
+## 9月28日更新：
 
 - 修复了一系列数值bug
 - 优化了政策计算

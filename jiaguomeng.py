@@ -102,7 +102,7 @@ start['花园洋房'] *= 1.022
 start['商贸中心'] *= 1.022
 start['平房'] *= 1.097
 start['电厂'] *= 1.18
-start['水厂'] *= 1.26
+#start['水厂'] *= 1.26
 start['加油站'] *= 1.2
 start['企鹅机械'] *= 1.33
 start['人才公寓'] *= 1.4
@@ -210,14 +210,23 @@ def calculateComb(buildings):
                 if buffed in buildtuple:
                     results[buildtuple.index(buffed)] += star[item]*0.5
         if item in buffs_com:
-            results[0:3] = np.add(results[0:3], buffs_com[item][star[item]-1])
+            toAdd = buffs_com[item][star[item]-1]
+            results[0] += toAdd
+            results[1] += toAdd
+            results[2] += toAdd
         if item in buffs_ind:
-            results[3:6] = np.add(results[3:6], buffs_ind[item][star[item]-1])
+            toAdd = buffs_ind[item][star[item]-1]
+            results[3] += toAdd
+            results[4] += toAdd
+            results[5] += toAdd
         if item in buffs_res:
-            results[6:9] = np.add(results[6:9], buffs_res[item][star[item]-1])
-#        print(item, results)
+            toAdd = buffs_res[item][star[item]-1]
+            results[6] += toAdd
+            results[7] += toAdd
+            results[8] += toAdd
     return (np.sum([v*results[i] for i, v in enumerate(starts)]),
             [v*results[i]/startDict[star[buildtuple[i]]] for i, v in enumerate(starts)])
+
 #
 results = PQ()
 #

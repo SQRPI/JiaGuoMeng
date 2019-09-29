@@ -234,7 +234,7 @@ class Result(object):
 search_space=itertools.product(itertools.combinations(residence, 3), itertools.combinations(commercial, 3), itertools.combinations(industry, 3))
 search_space_size=comb(len(industry), 3)*comb(len(commercial), 3)*comb(len(residence), 3)
 print('Total iterations:', search_space_size)
-for item in tqdm(search_space,total=search_space_size,bar_format='{percentage:3.0f}%,{elapsed}<{remaining}|{bar}|{n_fmt}/{total_fmt},{rate_fmt}{postfix}'):
+for item in tqdm(search_space,total=search_space_size,bar_format='{percentage:3.0f}%,{elapsed}<{remaining}|{bar}|{n_fmt}/{total_fmt},{rate_fmt}{postfix}',ncols=70):
     prod = calculateComb(item)
 #    if prod > Max:
 #        print('\n', prod, item)

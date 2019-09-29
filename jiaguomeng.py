@@ -10,6 +10,7 @@ from tqdm import tqdm
 import itertools
 from queue import PriorityQueue as PQ
 from scipy.special import comb
+from collections import defaultdict as ddict
 
 Mode = 'Online'
 
@@ -82,7 +83,7 @@ for item in PenStars:
 
 startDict = {1:1, 2:2, 3:6, 4:24, 5:120}
 
-start = dict()
+start = ddict(int)
 for item in residence:#住宅
     start[item] = startDict[star[item]]*\
         (1+Policy['Global']+Policy['Online']+Policy['Residence']+Policy['JiaGuoZhiGuang'])*\

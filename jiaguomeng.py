@@ -6,6 +6,7 @@ Created on Thu Sep 26 12:50:13 2019
 """
 
 import numpy as np
+import unicodedata
 from tqdm import tqdm
 import itertools
 from queue import PriorityQueue as PQ
@@ -244,7 +245,7 @@ class Result(object):
 search_space=itertools.product(itertools.combinations(residence, 3), itertools.combinations(commercial, 3), itertools.combinations(industry, 3))
 search_space_size=comb(len(industry), 3)*comb(len(commercial), 3)*comb(len(residence), 3)
 print('Total iterations:', search_space_size)
-for item in tqdm(search_space,total=search_space_size,bar_format='{percentage:3.0f}%,{elapsed}<{remaining}|{bar}|{n_fmt}/{total_fmt},{rate_fmt}{postfix}',ncols=70):
+for item in tqdm(search_space,total=search_space_size,bar_format='{percentage:3.0f}%, {elapsed}<{remaining}|{bar}|{n_fmt}/{total_fmt}, {rate_fmt}{postfix}',ncols=70):
     prod = calculateComb(item)
 #    if prod > Max:
 #        print('\n', prod, item)
@@ -252,28 +253,49 @@ for item in tqdm(search_space,total=search_space_size,bar_format='{percentage:3.
     results.put(Result(-prod[0], (item, prod[1])))
     pass
 
+def printTable(content):
+    def strwid(string):
+        return sum(
+            2 if unicodedata.east_asian_width(char) in {'W', 'F' and 'A'}
+            else 1
+            for char in string
+        )
+
+    widths = [max(strwid(cell) for cell in col) for col in zip(*content)]
+    for row in content:
+        printed_cells = (
+            ' ' * (width - strwid(cell)) + cell
+            for cell, width in zip(row, widths)
+        )
+        print(' | '.join(printed_cells))
+
+
+
 cdict = dict()
 #for i in range(2):
 #    cdict[i] = results.get()
 #    print(-cdict[i].priority, cdict[i].builds)
-print('==============')
-Rec = results.get()
-print('最优策略：', Rec.builds[0])
-print('总加成倍率', np.round(sum([x*startDict[star[Rec.builds[0][i//3][i%3]]] for i, x in enumerate(Rec.builds[1])]), 2))
-print('各建筑加成倍率', np.round(Rec.builds[1], 2))
-print('升级优先级', np.round([x*startDict[star[Rec.builds[0][i//3][i%3]]] for i, x in enumerate(Rec.builds[1])], 2))
+layout, scores = results.get().builds
+layout_list = [cell for row in layout for cell in row]
+priorities = [x*startDict[star[layout_list[i]]] for i, x in enumerate(scores)]
+printTable([
+    ['#'] + ['{}'.format(d) for d in range(9)],
+    ['最优策略'] + layout_list,
+    ['各建筑加成倍率'] + ['{:.2f}'.format(score) for score in scores],
+    ['升级优先级'] + ['{:.2f}'.format(priority) for priority in priorities],
+])
+print('总加成倍率：{:.2f}'.format(sum(priorities)))
 
 def getNext():
     print('==============')
     Rec = results.get()
     print('次优策略：', Rec.builds[0])
-    print('总加成倍率', np.round(sum([x*startDict[star[Rec.builds[0][i//3][i%3]]] for i, x in enumerate(Rec.builds[1])]), 2))
+    print('总加成倍率', np.round(sum(priorities), 2))
     print('各建筑加成倍率', np.round(Rec.builds[1], 2))
-    print('升级优先级', np.round([x*startDict[star[Rec.builds[0][i//3][i%3]]] for i, x in enumerate(Rec.builds[1])], 2))
+    print('升级优先级', np.round(priorities, 2))
 
 last_result=[list(item) for item in last_result]
-now_result=Rec.builds[0]
-now_result=[list(item) for item in now_result]
+now_result=[list(item) for item in layout]
 for class_num in range(3):
     for item in last_result[class_num][:]:
         if item in now_result[class_num]:
@@ -282,8 +304,7 @@ for class_num in range(3):
 print(last_result,'被')
 print(now_result,'替换')
 
-upgrade_order=np.argsort([x*startDict[star[Rec.builds[0][i//3][i%3]]] for i, x in enumerate(Rec.builds[1])])[::-1]
-print('升级顺序:(',end='')
-for item in upgrade_order[:-1]:
-    print(item,',',sep='',end='')
-print(upgrade_order[-1],')',sep='')
+upgrade_order=np.argsort(priorities)[::-1]
+print('升级顺序:({})'.format(', '.join(
+    layout_list[i] for i in upgrade_order
+)))

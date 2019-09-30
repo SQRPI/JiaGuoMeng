@@ -1,5 +1,6 @@
 # JiaGuoMeng
 家国梦建筑摆放计算
+在线版：http://39.107.248.130:9100/ 来自nga[hello_bond1989]
 
 ## 使用方法
 
@@ -17,8 +18,12 @@ Step2. 用python3运行程序
 公式参考： https://bbs.nga.cn/read.php?tid=18675554
 nga：https://bbs.nga.cn/read.php?tid=18677204
 
-## 9月28日更新：
+## 更新记录：
 
+9.28更新：
 - 修复了一系列数值bug
 - 优化了政策计算
 - 修复升级优先级的bug
+9.30更新：
+- 进一步优化代码和交互逻辑
+- 增加在线版本

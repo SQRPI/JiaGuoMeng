@@ -13,41 +13,87 @@ from queue import PriorityQueue as PQ
 from scipy.special import comb
 from collections import defaultdict as ddict
 
+#======= 配置：在这里输入自己的状况 =======
 Mode = 'Online'
+last_result=(('人才公寓', '木屋', '居民楼'), ('五金店', '菜市场', '便利店'), ('食品厂', '电厂', '木材厂'))
 
-commercial = '便利店 五金店 服装店 菜市场 学校 图书城 商贸中心 加油站 民食斋 媒体之声'
-residence = '木屋 居民楼 钢结构房 平房 小型公寓 人才公寓 花园洋房 中式小楼 空中别墅 复兴公馆'
-industry  = '木材厂 食品厂 造纸厂 水厂 电厂 钢铁厂 纺织厂 零件厂 企鹅机械 人民石油'
-
+# 在这里填写你各建筑的星数。
 OneStars = ' 零件厂 民食斋 中式小楼 人民石油 商贸中心 花园洋房 空中别墅 媒体之声 复兴公馆'
 TwoStars = ' 企鹅机械 图书城 加油站'
 TriStars = ' 平房 学校 钢铁厂 小型公寓 人才公寓 纺织厂 便利店 服装店 电厂 水厂'
 QuaStars = ' 居民楼 木屋 五金店 木材厂 食品厂 菜市场 造纸厂 钢结构房'
 PenStars = ' '
 
-last_result=(('人才公寓', '木屋', '居民楼'), ('五金店', '菜市场', '便利店'), ('食品厂', '电厂', '木材厂'))
+# 在这里填写你的政策加成。
+# 没加成为0，有100%加成为1，有150%加成为1.5，以此类推。
+    'Global':  1+1,
+    'Online':  0,
+    'Offline': 0,
+    'Residence': 3,
+    'Commercial': 3,
+    'Industry': 1,
+    'JiaGuoZhiGuang': 0.15+0.45
+}
 
-######星级 * 照片 * 政策 * 任务
-'''
-    在这里填写你的政策和照片加成
-'''
-Policy = {
-            'Global':  1+1,
-            'Online':  0,
-            'Offline': 0,
-            'Residence': 3,
-            'Commercial': 3,
-            'Industry': 1,
-            'JiaGuoZhiGuang': 0.15+0.45
-        }
+# 在这里填写你的照片加成。
+# 数字的意义见上。
 Photos = {
-            'Global':  0.7,
-            'Online':  1.2,
-            'Offline': 0.7,
-            'Residence': 2.1,
-            'Commercial': 1.5,
-            'Industry': 0.9,
-        }
+    'Global':  0.7,
+    'Online':  1.2,
+    'Offline': 0.7,
+    'Residence': 2.1,
+    'Commercial': 1.5,
+    'Industry': 0.9,
+}
+
+# 在这里填写你的城市任务加成。
+# 数字的意义见上。
+QuestsGeneral = {
+    'Global':  0,
+    'Online':  0,
+    'Offline': 0,
+    'Residence': 0,
+    'Commercial': 0,
+    'Industry': 0,
+}
+QuestsBuilding = {
+    '花园洋房': 0,
+    '空中别墅': 0,
+    '复兴公馆': 0,
+    '商贸中心': 0,
+    '加油站': 0,
+    '人民石油': 0,
+    '媒体之声': 0,
+    '企鹅机械': 0,
+    '中式小楼': 0,
+    '零件厂': 0,
+    '人才公寓': 0,
+    '民食斋': 0,
+    '纺织厂': 0,
+    '图书城': 0,
+    '水厂': 0,
+    '电厂': 0,
+    '钢铁厂': 0,
+    '小型公寓': 0,
+    '服装店': 0,
+    '木材厂': 0,
+    '木屋': 0,
+    '菜市场': 0,
+    '食品厂': 0,
+    '钢结构房': 0,
+    '造纸厂': 0,
+    '便利店': 0,
+    '五金店': 0,
+    '平房': 0,
+    '居民楼': 0,
+    '学校': 0,
+}
+
+#======= 结束配置 =======
+
+commercial = '便利店 五金店 服装店 菜市场 学校 图书城 商贸中心 加油站 民食斋 媒体之声'
+residence = '木屋 居民楼 钢结构房 平房 小型公寓 人才公寓 花园洋房 中式小楼 空中别墅 复兴公馆'
+industry  = '木材厂 食品厂 造纸厂 水厂 电厂 钢铁厂 纺织厂 零件厂 企鹅机械 人民石油'
 
 class UndefinedError(Exception): pass
 
@@ -84,22 +130,28 @@ for item in PenStars:
 
 startDict = {1:1, 2:2, 3:6, 4:24, 5:120}
 
+######星级 * 政策 * 照片 * 任务
 start = ddict(int)
 for item in residence:#住宅
-    start[item] = startDict[star[item]]*\
-        (1+Policy['Global']+Policy['Online']+Policy['Residence']+Policy['JiaGuoZhiGuang'])*\
-        (1+Photos['Global']+Photos['Online']+Photos['Residence'])
+    start[item] = (startDict[star[item]] *
+        (1+Policy['Global']+Policy['Online']+Policy['Residence']+Policy['JiaGuoZhiGuang']) *
+        (1+Photos['Global']+Photos['Online']+Photos['Residence']) *
+        (1+QuestsGeneral['Global']+QuestsGeneral['Online']+QuestsGeneral['Residence']+QuestsGeneral.get(item, 0))
+    )
 for item in commercial:#商业
-    start[item] = startDict[star[item]]*\
-        (1+Policy['Global']+Policy['Online']+Policy['Commercial']+Policy['JiaGuoZhiGuang'])*\
-        (1+Photos['Global']+Photos['Online']+Photos['Commercial'])
+    start[item] = (startDict[star[item]] *
+        (1+Policy['Global']+Policy['Online']+Policy['Commercial']+Policy['JiaGuoZhiGuang']) *
+        (1+Photos['Global']+Photos['Online']+Photos['Commercial']) *
+        (1+QuestsGeneral['Global']+QuestsGeneral['Online']+QuestsGeneral['Commercial']+QuestsGeneral.get(item, 0))
+    )
 for item in industry:#工业
-    start[item] = startDict[star[item]]*\
-        (1+Policy['Global']+Policy['Online']+Policy['Industry']+Policy['JiaGuoZhiGuang'])*\
-        (1+Photos['Global']+Photos['Online']+Photos['Industry'])
+    start[item] = (startDict[star[item]] *
+        (1+Policy['Global']+Policy['Online']+Policy['Industry']+Policy['JiaGuoZhiGuang']) *
+        (1+Photos['Global']+Photos['Online']+Photos['Industry']) *
+        (1+QuestsGeneral['Global']+QuestsGeneral['Online']+QuestsGeneral['Industry']+QuestsGeneral.get(item, 0))
+    )
 
-
-#收益调整
+# 自带调整
 start['花园洋房'] *= 1.022
 start['商贸中心'] *= 1.022
 start['平房'] *= 1.097
@@ -113,52 +165,33 @@ start['民食斋'] *= 1.52
 start['空中别墅'] *= 1.52
 start['媒体之声'] *= 1.615
 
-#任务加成调整
-#start['小型公寓'] *= 2
-#start['人才公寓'] *= 3
-#start['居民楼'] *= 2
-#start['木屋'] *= 2
-
-#start['纺织厂'] *= 2.5
-#start['木材厂'] *= 2
-start['食品厂'] *= 2
-start['菜市场'] *= 2
-
-#start['商贸中心'] *= 2
-# start['服装店'] *= 2
-# start['造纸厂'] *= 2
-
-#start['民食斋'] *= 2
-# start['钢铁厂'] *= 3
-#start['木材厂'] *= 2
-
 buffs_100 = {
-                '木屋': ['木材厂'],
-                '居民楼': ['便利店'],
-                '钢结构房': ['钢铁厂'],
-                '花园洋房': ['商贸中心'],
-                '空中别墅': ['民食斋'],
+    '木屋': ['木材厂'],
+    '居民楼': ['便利店'],
+    '钢结构房': ['钢铁厂'],
+    '花园洋房': ['商贸中心'],
+    '空中别墅': ['民食斋'],
+    '便利店': ['居民楼'],
+    '五金店': ['零件厂'],
+    '服装店': ['纺织厂'],
+    '菜市场': ['食品厂'],
+    '学校':  ['图书城'],
+    '图书城': ['学校', '造纸厂'],
+    '商贸中心': ['花园洋房'],
+    '木材厂': ['木屋'],
+    '食品厂': ['菜市场'],
+    '造纸厂': ['图书城'],
+    '钢铁厂': ['钢结构房'],
+    '纺织厂': ['服装店'],
+    '零件厂': ['五金店'],
+    '企鹅机械':['零件厂'],
+    '人民石油':['加油站'],
+}
 
-                '便利店': ['居民楼'],
-                '五金店': ['零件厂'],
-                '服装店': ['纺织厂'],
-                '菜市场': ['食品厂'],
-                '学校':  ['图书城'],
-                '图书城': ['学校', '造纸厂'],
-                '商贸中心': ['花园洋房'],
-
-                '木材厂': ['木屋'],
-                '食品厂': ['菜市场'],
-                '造纸厂': ['图书城'],
-                '钢铁厂': ['钢结构房'],
-                '纺织厂': ['服装店'],
-                '零件厂': ['五金店'],
-                '企鹅机械':['零件厂'],
-                '人民石油':['加油站']
-            }
-
-buffs_50 = {'零件厂': ['企鹅机械'],
-            '加油站':['人民石油']}
+buffs_50 = {
+    '零件厂': ['企鹅机械'],
+    '加油站': ['人民石油'],
+}
 
 bufflist_258 = [.2, .5, .8, 1.1, 1.4]
 bufflist_246 = [.2, .4, .6, .8, 1.0]
@@ -168,35 +201,35 @@ bufflist_005 = [0.25*x for x in [.2, .4, .6, .8, 1.0]]
 bufflist_035 = [1.75*x for x in [.2, .4, .6, .8, 1.0]]
 
 buffs_com = {
-             '媒体之声': bufflist_005,
-             '企鹅机械': bufflist_015,
-             '民食斋': bufflist_246,
-             '纺织厂': bufflist_015,
-             '人才公寓': bufflist_246,
-             '中式小楼': bufflist_246,
-             '空中别墅': bufflist_258,
-             '电厂': bufflist_258
-             }
+    '媒体之声': bufflist_005,
+    '企鹅机械': bufflist_015,
+    '民食斋': bufflist_246,
+    '纺织厂': bufflist_015,
+    '人才公寓': bufflist_246,
+    '中式小楼': bufflist_246,
+    '空中别墅': bufflist_258,
+    '电厂': bufflist_258,
+}
 buffs_ind = {
-             '媒体之声': bufflist_005,
-             '钢铁厂': bufflist_015,
-             '中式小楼': bufflist_246,
-             '民食斋': bufflist_246,
-             '空中别墅': bufflist_258,
-             '电厂': bufflist_258,
-             '企鹅机械': bufflist_258,
-             '人才公寓': bufflist_035
-             }
+    '媒体之声': bufflist_005,
+    '钢铁厂': bufflist_015,
+    '中式小楼': bufflist_246,
+    '民食斋': bufflist_246,
+    '空中别墅': bufflist_258,
+    '电厂': bufflist_258,
+    '企鹅机械': bufflist_258,
+    '人才公寓': bufflist_035,
+}
 buffs_res = {
-             '媒体之声': bufflist_005,
-             '企鹅机械':bufflist_010,
-             '民食斋': bufflist_246,
-             '人才公寓': bufflist_246,
-             '平房': bufflist_246,
-             '空中别墅': bufflist_258,
-             '电厂': bufflist_258,
-             '中式小楼': bufflist_035
-             }
+    '媒体之声': bufflist_005,
+    '企鹅机械':bufflist_010,
+    '民食斋': bufflist_246,
+    '人才公寓': bufflist_246,
+    '平房': bufflist_246,
+    '空中别墅': bufflist_258,
+    '电厂': bufflist_258,
+    '中式小楼': bufflist_035,
+}
 
 def calculateComb(buildings):
     buildtuple = buildings[0] + buildings[1] + buildings[2]

@@ -5,9 +5,20 @@
 
 ## 使用方法
 
-Step1. 在文件开头输入你有的三类建筑、建筑的星级、照片、政策和任务加成
-
-Step2. 用python3运行程序
+- 搭建python环境
+	1. 访问[python官网](https://www.python.org/downloads/windows/)
+	2. 在导航栏中依次点击Downloads----Windows
+	3. 在Stable Releases条目下选择最新版的windows安装程序（后缀executable installer）下载（32位64位自行选择）
+	4. 安装首页勾选 Add Python to Path 点击Install Now（推荐）或自定义路径
+	5. 打开cmd，输入python -V，出现版本号为安装成功
+	6. 在cmd中输入`python -m pip install --user numpy scipy matplotlib ipython jupyter pandas sympy nose`并回车，安装数学依赖模块
+- 使用
+	1. 将github代码下载到本地并解压
+	2. 右键点击jiaguomeng.py选择Edit with IDLE根据提示进行个人配置
+	3. 在cmd中输入：cd 文件夹地址 （如：cd C:\Users\Lawrence\Desktop\JiaGuoMeng）
+	4. 输入：python jiaguomeng.py 并回车
+- 问题
+　　出现其他类似:`ModuleNotFoundError: No module named 'numpy'`的提示，参照环境搭建第六条输入`python -m pip install --user 模块名`并回车
 
 ## 说明
 

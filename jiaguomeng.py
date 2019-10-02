@@ -15,39 +15,40 @@ from collections import defaultdict as ddict
 
 #======= 配置：在这里输入自己的状况 =======
 Mode = 'Online'
-last_result=(('人才公寓', '木屋', '居民楼'), ('五金店', '菜市场', '便利店'), ('食品厂', '电厂', '木材厂'))
+last_result=(('木屋', '中式小楼', '人才公寓'), ('民食斋', '媒体之声', '图书城'), ('造纸厂', '电厂', '木材厂'))
 
 # 在这里填写你各建筑的星数。
-OneStars = ' 零件厂 民食斋 中式小楼 人民石油 商贸中心 花园洋房 空中别墅 媒体之声 复兴公馆'
-TwoStars = ' 企鹅机械 图书城 加油站'
-TriStars = ' 平房 学校 钢铁厂 小型公寓 人才公寓 纺织厂 便利店 服装店 电厂 水厂'
-QuaStars = ' 居民楼 木屋 五金店 木材厂 食品厂 菜市场 造纸厂 钢结构房'
-PenStars = ' '
+OneStars = ' 企鹅机械 人民石油 媒体之声 复兴公馆 空中别墅'
+TwoStars = ' 中式小楼 民食斋'
+TriStars = ' 人才公寓 图书城 花园洋房 商贸中心 加油站 零件厂 纺织厂'
+QuaStars = ' 小型公寓 钢铁厂'
+PenStars = ' 居民楼 钢结构房 服装店 水厂 食品厂 木屋 五金店 木材厂 食品厂 菜市场 造纸厂 钢结构房 便利店 电厂 平房 学校'
 
 # 在这里填写你的政策加成。
 # 没加成为0，有100%加成为1，有150%加成为1.5，以此类推。
+# global-全部 Online-在线 Residence-住宅 Commercial-商业 Indusy-工业
 Policy = {
-    'Global':  1+1,
-    'Online':  0,
+    'Global':  3,
+    'Online':  2,
     'Offline': 0,
     'Residence': 3,
     'Commercial': 3,
-    'Industry': 1,
-    'JiaGuoZhiGuang': 0.15+0.45
+    'Industry': 18,
+    'JiaGuoZhiGuang': 0.3+0.1
 }
 
 # 在这里填写你的照片加成。
 # 数字的意义见上。
 Photos = {
-    'Global':  0.7,
-    'Online':  1.2,
+    'Global':  1,
+    'Online':  0.8,
     'Offline': 0.7,
-    'Residence': 2.1,
-    'Commercial': 1.5,
-    'Industry': 0.9,
+    'Residence': 0.9,
+    'Commercial': 0.9,
+    'Industry': 1.5,
 }
 
-# 在这里填写你的城市任务加成。
+# 在这里填写你的城市任务全部或在线加成。
 # 数字的意义见上。
 QuestsGeneral = {
     'Global':  0,
@@ -57,6 +58,8 @@ QuestsGeneral = {
     'Commercial': 0,
     'Industry': 0,
 }
+# 在这里填写你的城市任务对单个建筑加成。
+# 数字的意义见上。
 QuestsBuilding = {
     '花园洋房': 0,
     '空中别墅': 0,
@@ -76,13 +79,13 @@ QuestsBuilding = {
     '电厂': 0,
     '钢铁厂': 0,
     '小型公寓': 0,
-    '服装店': 0,
-    '木材厂': 0,
+    '服装店': 2,
+    '木材厂': 1,
     '木屋': 0,
     '菜市场': 0,
     '食品厂': 0,
     '钢结构房': 0,
-    '造纸厂': 0,
+    '造纸厂': 1,
     '便利店': 0,
     '五金店': 0,
     '平房': 0,
@@ -137,19 +140,19 @@ for item in residence:#住宅
     start[item] = (startDict[star[item]] *
         (1+Policy['Global']+Policy['Online']+Policy['Residence']+Policy['JiaGuoZhiGuang']) *
         (1+Photos['Global']+Photos['Online']+Photos['Residence']) *
-        (1+QuestsGeneral['Global']+QuestsGeneral['Online']+QuestsGeneral['Residence']+QuestsGeneral.get(item, 0))
+        (1+QuestsGeneral['Global']+QuestsGeneral['Online']+QuestsGeneral['Residence']+QuestsBuilding.get(item, 0))
     )
 for item in commercial:#商业
     start[item] = (startDict[star[item]] *
         (1+Policy['Global']+Policy['Online']+Policy['Commercial']+Policy['JiaGuoZhiGuang']) *
         (1+Photos['Global']+Photos['Online']+Photos['Commercial']) *
-        (1+QuestsGeneral['Global']+QuestsGeneral['Online']+QuestsGeneral['Commercial']+QuestsGeneral.get(item, 0))
+        (1+QuestsGeneral['Global']+QuestsGeneral['Online']+QuestsGeneral['Commercial']+QuestsBuilding.get(item, 0))
     )
 for item in industry:#工业
     start[item] = (startDict[star[item]] *
         (1+Policy['Global']+Policy['Online']+Policy['Industry']+Policy['JiaGuoZhiGuang']) *
         (1+Photos['Global']+Photos['Online']+Photos['Industry']) *
-        (1+QuestsGeneral['Global']+QuestsGeneral['Online']+QuestsGeneral['Industry']+QuestsGeneral.get(item, 0))
+        (1+QuestsGeneral['Global']+QuestsGeneral['Online']+QuestsGeneral['Industry']+QuestsBuilding.get(item, 0))
     )
 
 # 自带调整

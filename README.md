@@ -12,9 +12,9 @@
 	6. 在cmd中输入`python -m pip install --user numpy scipy matplotlib ipython jupyter pandas sympy nose`并回车，安装数学依赖模块
 - 使用
 	1. 将github代码下载到本地并解压
-	2. **右键点击config.py选择Edit with IDLE根据提示进行个人配置
+	2. **右键点击config.py选择Edit with IDLE根据提示进行个人配置**
 	3. 在cmd中输入：cd 文件夹地址 （如：cd C:\Users\Lawrence\Desktop\JiaGuoMeng）
-	4. **运行jiaguomeng_v_2_0.py(输入：python jiaguomeng_v_2_0.py 并回车)
+	4. **运行jiaguomeng_v_2_0.py(输入：python jiaguomeng_v_2_0.py 并回车)**
 - 问题
 　　出现其他类似:`ModuleNotFoundError: No module named 'numpy'`的提示，参照环境搭建第六条输入`python -m pip install --user 模块名`并回车
 

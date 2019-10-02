@@ -14,23 +14,21 @@
 	6. 在cmd中输入`python -m pip install --user numpy scipy matplotlib ipython jupyter pandas sympy nose`并回车，安装数学依赖模块
 - 使用
 	1. 将github代码下载到本地并解压
-	2. 右键点击jiaguomeng.py选择Edit with IDLE根据提示进行个人配置
+	2. 右键点击jiaguomeng_v_2_0.py选择Edit with IDLE根据提示进行个人配置
 	3. 在cmd中输入：cd 文件夹地址 （如：cd C:\Users\Lawrence\Desktop\JiaGuoMeng）
 	4. 输入：python jiaguomeng.py 并回车
 - 问题
 　　出现其他类似:`ModuleNotFoundError: No module named 'numpy'`的提示，参照环境搭建第六条输入`python -m pip install --user 模块名`并回车
 
-## 说明
-
-- 程序假设所有建筑等级相同**这一假设可能会造成和输出最优与实际最优不符**
-
-- 部分高星建筑数据缺失，欢迎补充、修改
-
-
 公式参考： https://bbs.nga.cn/read.php?tid=18675554
 nga：https://bbs.nga.cn/read.php?tid=18677204
 
 ## 更新记录：
+
+10.2更新：
+- 调整算法逻辑，使用当前建筑等级进行计算，更加贴近游戏实际
+- 修复了一系列bug
+- 调整输出，计算输出当前秒伤
 
 9.28更新：
 - 修复了一系列数值bug

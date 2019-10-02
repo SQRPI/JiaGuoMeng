@@ -36,3 +36,18 @@ nga：https://bbs.nga.cn/read.php?tid=18677204
 - 修复了一系列数值bug
 - 优化了政策计算
 - 修复升级优先级的bug
+
+## 作者：
+
+- 本项目由我SQRPI（nga: 根派）和校友（nga: 温火融冰）合作完成。
+
+- 温火融冰的前端整合版在：[点击访问](https://github.com/SQRPI/JiaGuoMeng)，大家不要忘记去支持一下点个star哦！
+
+- nga原帖链接：[写了个计算建筑摆放最优策略的脚本](https://bbs.nga.cn/read.php?tid=18677204)
+
+- 公式参考：[单建筑收益公式及一些tips](https://bbs.nga.cn/read.php?tid=18675554)
+
+- 数据来源：[[攻略] 建筑收益及升级消耗数据](https://nga.178.com/read.php?tid=18741305)
+- 另外关于火车机制的测评可以参考温火融冰在nga发布的攻略贴[[攻略] 火车机制探索与数据测试](https://nga.178.com/read.php?tid=18729321)
+- 感谢一起参与修bug、提供数据、发布综述以及给我们点star的朋友们，你们的支持就是我们最大的动力！
+

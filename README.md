@@ -1,8 +1,6 @@
 # JiaGuoMeng
 家国梦建筑摆放计算
 
-在线版：http://39.107.248.130:9100/ 来自nga[hello_bond1989]
-
 ## 使用方法
 
 - 搭建python环境

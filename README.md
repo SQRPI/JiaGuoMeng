@@ -9,7 +9,7 @@
 	3. 在Stable Releases条目下选择最新版的windows安装程序（后缀executable installer）下载（32位64位自行选择）
 	4. 安装首页勾选 Add Python to Path 点击Install Now（推荐）或自定义路径
 	5. 打开cmd，输入python -V，出现版本号为安装成功
-	6. 在cmd中输入`python -m pip install --user numpy scipy matplotlib ipython jupyter pandas sympy nose`并回车，安装数学依赖模块
+	6. 在cmd中输入`python -m pip install --user numpy scipy tqdm pandas`并回车，安装数学依赖模块
 - 使用
 	1. 将github代码下载到本地并解压
 	2. **右键点击config.py选择Edit with IDLE根据提示进行个人配置**

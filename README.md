@@ -38,7 +38,7 @@
 
 - 本项目由我SQRPI（nga: 根派）和校友（nga: 温火融冰）合作完成。
 
-- 温火融冰的前端整合版在：[点击访问](https://github.com/SQRPI/JiaGuoMeng)，大家不要忘记去支持一下点个star哦！
+- 温火融冰的前端整合版在：[点击访问](https://github.com/WANGPeisheng1997/JiaGuoMengCalculator)，大家不要忘记去支持一下点个star哦！
 
 - nga原帖链接：[写了个计算建筑摆放最优策略的脚本](https://bbs.nga.cn/read.php?tid=18677204)
 

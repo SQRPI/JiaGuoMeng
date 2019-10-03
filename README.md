@@ -16,7 +16,7 @@ exe版本下载：https://github.com/WANGPeisheng1997/JiaGuoMengCalculator
 	1. 将github代码下载到本地并解压
 	2. **右键点击config.py选择Edit with IDLE根据提示进行个人配置**
 	3. 在cmd中输入：cd 文件夹地址 （如：cd C:\Users\Lawrence\Desktop\JiaGuoMeng）
-	4. **运行jiaguomeng_v_2_0.py(输入：python jiaguomeng_v_2_0.py 并回车)**
+	4. **运行jiaguomeng_v_2_1.py（自动升级版）或者jiaguomeng_v_2_0.py（按当前等级计算）(输入：python jiaguomeng_v_2_1.py 并回车)**
 - 问题
 　　出现其他类似:`ModuleNotFoundError: No module named 'numpy'`的提示，参照环境搭建第六条输入`python -m pip install --user 模块名`并回车
 
@@ -25,7 +25,7 @@ exe版本下载：https://github.com/WANGPeisheng1997/JiaGuoMengCalculator
 
 - 所有政策都要填上去，相同类别的请手动求和后填写
 - 国庆buff可以加在家国之光上
-- 在107行输入你计划投入的金币数，建议第一次运行不超过当前秒伤的1000倍，以免计算量过大
+- 在107行输入你计划投入的金币数(v2.1)，建议第一次运行不超过当前秒伤的1000倍，以免计算量过大
 
 ## 更新记录
 

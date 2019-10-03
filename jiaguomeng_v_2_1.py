@@ -67,29 +67,29 @@ def calculateComb(buildings, MaxIncome = 0, output=False):
         upgradePQ.put(NamedPQ(Upgrade['Ratio'+Rarities[i]].iloc[NowGrade[i]-1],
                               i))
     while Golds > 0 and NowEffect > NeededEffect:
-        build = upgradePQ.get().name
+        i = upgradePQ.get().name
         NowGradeI = NowGrade[i]
         if NowGradeI < 2000:
             Golds -= Upgrade[Rarities[i]].iloc[NowGrade[i]+1]
             NowGrade[i] += 1 # upgrade build
-            upgradePQ.put(NamedPQ(Upgrade['Ratio'+Rarities[i]].iloc[NowGrade[i]-1],
+            upgradePQ.put(NamedPQ(-Upgrade['Ratio'+Rarities[i]].iloc[NowGrade[i]-1] * basemultiples[i],
                                   i))
             Income += Upgrade.incomeIncrease.iloc[NowGrade[i]] * basemultiples[i]
             NowEffect = (Income - IncomeUnupgrade)/(TotalGold - Golds)
             NeededEffect = (MaxIncome - Income)/Golds
         elif upgradePQ.empty():
             break
-#    if NowEffect < NeededEffect:
-#        Income = 0
     if output:
         print('最优策略：', buildings)
-        print('总秒伤：', showLetterNum(TotalIncome))
+        print('总秒伤：', showLetterNum(Income))
 
         print('各建筑等级：', [(build, NowGrade[i]) for i, build in enumerate(buildtuple)])
         multiples = [basemultiples[i] * Upgrade.incomePerSec.iloc[NowGrade[i]-1]\
                      for i, build in enumerate(buildtuple)]
         print('各建筑秒伤：', [(buildtuple[i], showLetterNum(x)) for i, x in enumerate(multiples)])
-#        print('升级收益：', [(x, Upgrade['Ratio'+buildsDict[x]['rarity']].iloc[NowGrade[i]-1]*multiples[i]) for i, x in enumerate(buildtuple)])
+        if not upgradePQ.empty():
+            ToUpgrade = upgradePQ.get()
+            print('优先升级:', buildtuple[ToUpgrade.name], '每金币收益:', -ToUpgrade.priority)
     else:
         return (Income, (buildings, NowGrade), NowEffect)
 
@@ -105,7 +105,7 @@ for buildings in tqdm(searchSpace,total=searchSpaceSize,
         MaxStat = Stat
         MaxEffect = NowEffect
 
-calculateComb(Stat[0], output=True)
+calculateComb(MaxStat[0], output=True)
 #print('最优策略：', Best.name[0])
 #print('总秒伤：', showLetterNum(-Best.priority))
 #

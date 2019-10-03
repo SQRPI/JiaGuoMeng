@@ -20,6 +20,13 @@ exe版本下载：https://github.com/WANGPeisheng1997/JiaGuoMengCalculator
 - 问题
 　　出现其他类似:`ModuleNotFoundError: No module named 'numpy'`的提示，参照环境搭建第六条输入`python -m pip install --user 模块名`并回车
 
+## 配置文件
+在config.py中填写信息，注意：
+
+- 所有政策都要填上去，相同类别的请手动求和后填写
+- 国庆buff可以加在家国之光上
+- 在107行输入你计划投入的金币数，建议第一次运行不超过当前秒伤的1000倍，以免计算量过大
+
 ## 更新记录
 
 10.2更新：

@@ -4,6 +4,7 @@ from itertools import combinations, product
 from collections import defaultdict as ddict
 from collections import OrderedDict
 
+
 Mode = 'Online' #这个先不要改，后面计划增加供货模式和离线模式
 
 blacklist = {

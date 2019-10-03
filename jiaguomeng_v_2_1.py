@@ -64,8 +64,8 @@ def calculateComb(buildings, MaxIncome = 0, output=False):
     Income = IncomeUnupgrade
     upgradePQ = PQ()
     for i, build in enumerate(buildtuple):
-        upgradePQ.put(NamedPQ(Upgrade['Ratio'+Rarities[i]].iloc[NowGrade[i]-1],
-                              i))
+        upgradePQ.put(NamedPQ(-Upgrade['Ratio'+Rarities[i]].iloc[NowGrade[i]-1] * basemultiples[i],
+                                  i))
     while Golds > 0 and NowEffect > NeededEffect:
         i = upgradePQ.get().name
         NowGradeI = NowGrade[i]
